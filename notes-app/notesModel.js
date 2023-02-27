@@ -7,6 +7,10 @@ class NotesModel {
     this.notes.push(note);
   }
 
+  reset() {
+    this.notes = [];
+  }
+
   getNotes() {
     return this.notes;
   }
