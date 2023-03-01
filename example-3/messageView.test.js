@@ -6,15 +6,22 @@ const fs = require("fs");
 const MessageView = require("./messageView");
 
 describe("MessageView", () => {
-  it("clicks the button", () => {
+  it("clicks the button and display the message", () => {
     document.body.innerHTML = fs.readFileSync("./index.html");
 
     const view = new MessageView();
 
     const buttonEl = document.querySelector("#show-message-button");
+    const messageEl = document.querySelector("#message-input");
+    
+    messageEl.value = "This is a message";
+
     buttonEl.click();
 
     expect(document.querySelector("#message")).not.toBeNull();
+    expect(document.querySelector("#message").textContent).toEqual(
+      "This is a message"
+    );
   });
 
   it("clicks the button to hide message", () => {
