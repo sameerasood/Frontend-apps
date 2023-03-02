@@ -4,6 +4,7 @@ class NotesView {
     this.client = client;
 
     this.mainContainerEl = document.querySelector("#main-container");
+    this.addNoteInput = document.querySelector("#notes-input");
 
     document.querySelector("#notes-button").addEventListener("click", () => {
       const newNote = document.querySelector("#notes-input").value;
@@ -12,7 +13,8 @@ class NotesView {
   }
 
   addNewNote(newNote) {
-    this.model.addNotes(newNote);
+    // this.model.addNotes(newNote);
+    this.addNoteToServer();
     this.displayNotes();
   }
 
@@ -37,6 +39,14 @@ class NotesView {
   displayNotesFromApi() {
     this.client.loadNotes((notes) => {
       this.model.setNotes(notes);
+      this.displayNotes();
+    });
+  }
+
+  addNoteToServer() {
+    this.client.createNote(this.addNoteInput.value, (notes) => {
+      this.model.setNotes(notes);
+      notes = "";
       this.displayNotes();
     });
   }

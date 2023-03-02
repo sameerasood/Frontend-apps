@@ -20,11 +20,18 @@ describe("NotesView", () => {
     expect(document.querySelectorAll("div.note").length).toEqual(2);
   });
 
-  it("get input and display the note", () => {
+  it("adds a note and display it", () => {
     document.body.innerHTML = fs.readFileSync("./index.html");
+    NotesClient.mockClear();
 
     const model = new NotesModel();
-    const view = new NotesView(model);
+    const mockClient = new NotesClient();
+
+    mockClient.createNote.mockImplementation((note, callback) =>
+      callback([note])
+    );
+
+    const view = new NotesView(model, mockClient);
 
     const input = document.querySelector("#notes-input");
     input.value = "This is a test note";
@@ -32,8 +39,7 @@ describe("NotesView", () => {
     const button = document.querySelector("#notes-button");
     button.click();
 
-    expect(document.querySelectorAll("div.note").length).toEqual(1);
-    expect(document.querySelectorAll("div.note")[0].textContent).toEqual(
+    expect(document.querySelector("div.note").textContent).toEqual(
       "This is a test note"
     );
   });
@@ -67,5 +73,29 @@ describe("NotesView", () => {
     view.displayNotesFromApi();
     const notes = document.querySelectorAll(".note");
     expect(notes.length).toBe(1);
+  });
+
+  it("creates a note and saves it on server", () => {
+    document.body.innerHTML = fs.readFileSync("./index.html");
+    NotesClient.mockClear();
+
+    const model = new NotesModel();
+    const mockClient = new NotesClient();
+
+    mockClient.createNote.mockImplementation((note, callback) => {
+      callback([note]);
+
+      const view = new NotesView(model, mockClient);
+
+      const input = document.querySelector("#notes-input");
+      input.value = "This is a test note";
+
+      const button = document.querySelector("#notes-button");
+      button.click();
+
+      expect(document.querySelector("div .note").textContent).toEqual([
+        "This is a test note",
+      ]);
+    });
   });
 });

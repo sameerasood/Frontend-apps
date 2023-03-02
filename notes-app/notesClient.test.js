@@ -24,4 +24,13 @@ describe("NotesClient class", () => {
       done();
     });
   });
+
+  it("adds new notes to the server", (done) => {
+    const client = new NotesClient();
+    fetch.mockResponseOnce(JSON.stringify(["server note"]));
+    client.createNote("server note", (returnedData) => {
+      expect(returnedData.at(-1)).toBe("server note");
+      done();
+    });
+  });
 });

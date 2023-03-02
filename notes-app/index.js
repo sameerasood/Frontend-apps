@@ -1,6 +1,6 @@
 const NotesModel = require("./notesModel.js");
 const NotesView = require("./notesView");
-const NotesClient = requrie("./notesClient");
+const NotesClient = require("./notesClient");
 
 const model = new NotesModel();
 const client = new NotesClient();
