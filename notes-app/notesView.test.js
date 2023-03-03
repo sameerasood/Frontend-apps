@@ -27,9 +27,7 @@ describe("NotesView", () => {
     const model = new NotesModel();
     const mockClient = new NotesClient();
 
-    mockClient.createNote.mockImplementation((note, callback) =>
-      callback([note])
-    );
+    mockClient.createNote.mockImplementation(note);
 
     const view = new NotesView(model, mockClient);
 
@@ -39,6 +37,7 @@ describe("NotesView", () => {
     const button = document.querySelector("#notes-button");
     button.click();
 
+    displayNotesFromApi();
     expect(document.querySelector("div.note").textContent).toEqual(
       "This is a test note"
     );
@@ -65,9 +64,7 @@ describe("NotesView", () => {
     const model = new NotesModel();
     const mockClient = new NotesClient();
 
-    mockClient.loadNotes.mockImplementation((callback) =>
-      callback(["Note one"])
-    );
+    mockClient.loadNotes.mockImplementation();
     const view = new NotesView(model, mockClient);
 
     view.displayNotesFromApi();

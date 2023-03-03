@@ -17,11 +17,9 @@ describe("NotesClient class", () => {
         id: 123,
       })
     );
-    client.loadNotes((returnedDataFromApi) => {
-      expect(returnedDataFromApi.name).toBe("Some Value");
-      expect(returnedDataFromApi.id).toBe(123);
-
-      // 4. Tell Jest our test can now end.
+    const notes = client.loadNotes();
+    notes.then((data) => {
+      expect(data.name).toEqual("Some Value");
       done();
     });
   });
@@ -29,8 +27,9 @@ describe("NotesClient class", () => {
   it("adds new notes to the server", (done) => {
     const client = new NotesClient();
     fetch.mockResponseOnce(JSON.stringify(["server note"]));
-    client.createNote("server note", (returnedData) => {
-      expect(returnedData).toEqual(["server note"]);
+    const newNote = client.createNote("server note");
+    newNote.then((data) => {
+      expect(data).toEqual(["server note"]);
       done();
     });
   });

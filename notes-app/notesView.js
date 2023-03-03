@@ -13,8 +13,7 @@ class NotesView {
   }
 
   addNewNote(newNote) {
-    // this.model.addNotes(newNote);
-    this.addNoteToServer();
+    this.addNoteToServer(newNote);
     this.displayNotes();
   }
 
@@ -37,24 +36,26 @@ class NotesView {
   }
 
   displayNotesFromApi() {
-    this.client.loadNotes((notes) => {
+    this.client.loadNotes().then((notes) => {
       this.model.setNotes(notes);
       this.displayNotes();
     });
   }
 
-  addNoteToServer() {
-    this.client.createNote(this.addNoteInput.value, (notes) => {
+  addNoteToServer(newNote) {
+    const notes = this.client.createNote(newNote);
+    notes.then((notes) => {
       this.model.setNotes(notes);
-      notes = "";
       this.displayNotes();
     });
+
+
   }
 
-  //   async deleteNotes() {
-  //     const data = await this.client.reset();
-  //     this.displayNotesFromApi();
-  //   }
+  // async deleteNotes() {
+  //   const data = await this.client.reset();
+  //   this.displayNotesFromApi();
+  // }
 }
 
 module.exports = NotesView;
