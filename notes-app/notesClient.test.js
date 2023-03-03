@@ -1,9 +1,10 @@
+require("jest-fetch-mock").enableMocks();
+
 const NotesClient = require("./notesClient");
 
 // This makes `fetch` available to our test
 // (it is not by default, as normally `fetch` is only
 // available within the browser)
-require("jest-fetch-mock").enableMocks();
 
 describe("NotesClient class", () => {
   it("calls fetch and loads the data", (done) => {
@@ -29,7 +30,7 @@ describe("NotesClient class", () => {
     const client = new NotesClient();
     fetch.mockResponseOnce(JSON.stringify(["server note"]));
     client.createNote("server note", (returnedData) => {
-      expect(returnedData.at(-1)).toBe("server note");
+      expect(returnedData).toEqual(["server note"]);
       done();
     });
   });

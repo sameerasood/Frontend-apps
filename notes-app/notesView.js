@@ -51,10 +51,10 @@ class NotesView {
     });
   }
 
-  async resetNotes() {
-    const data = await this.client.reset();
-    this.displayNotesFromApi();
-  }
+  //   async deleteNotes() {
+  //     const data = await this.client.reset();
+  //     this.displayNotesFromApi();
+  //   }
 }
 
 module.exports = NotesView;
